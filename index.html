@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Formulário — Demo</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app">
+    <header class="header">
+      <div class="logo"> <img src="Captura de tela 2026-02-02 102821.png" alt="logo federal" width="30">  <strong>Pesquisa de Satisfação</strong></div>
+      <div class="brand">• Avalie a nossa equipe!  •</div>
+    </header>
+
+    <main class="container">
+      <div id="evaluatedSector" class="sector-banner hidden">Avaliação do setor: <strong id="sectorName"></strong></div>
+      <div class="card login-card" id="loginCard">
+        <h2>Login</h2>
+        <p class="muted">Acesso simples para testar o formulário.</p>
+        <form id="loginForm">
+          <label for="email">E-mail</label>
+          <input id="email" type="email" placeholder="seu@email.com" required>
+
+          <fieldset id="sectorField" class="sector-field">
+            <legend>Setor a ser avaliado</legend>
+            <label><input type="radio" name="sector" value="Compras"> Compras</label>
+            <label><input type="radio" name="sector" value="Jurídico"> Jurídico</label>
+            <label><input type="radio" name="sector" value="TI"> TI</label>
+          </fieldset>
+
+          <button class="btn primary" type="submit">Entrar</button>
+          <div id="loginError" class="error hidden">E-mail ou setor inválidos.</div>
+        </form>
+      </div>
+
+      <div class="card form-card hidden" id="formCard">
+        <h2 id="formTitle">Pesquisa de Satisfação</h2>
+        <p class="muted" id="welcomeUser">Bem-vindo(a)!</p>
+
+        <div id="stepper" class="stepper hidden">
+          <div class="progress"><div id="progressBar" class="progress-bar" style="width:0%"></div></div>
+
+          <p class="map-instruction">Utilize as regras de frequência abaixo para o seu critério de avaliação que poderá ser de 1 (nota baixa) a 5 (nota alta).</p>
+
+          <div class="mapinha" aria-hidden="true">
+            <div class="map-header">GRAU DE FREQUÊNCIA</div>
+            <div class="map-table">
+              <div class="map-row top-row">
+                <div class="map-cell">1</div>
+                <div class="map-cell">2</div>
+                <div class="map-cell">3</div>
+                <div class="map-cell">4</div>
+                <div class="map-cell">5</div>
+              </div>
+              <div class="map-row desc-row">
+                <div class="map-cell">Raramente atende as expectativas</div>
+                <div class="map-cell">&nbsp;</div>
+                <div class="map-cell">Frequentemente atende as expectativas</div>
+                <div class="map-cell">Atende às expectativas</div>
+                <div class="map-cell">&nbsp;</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="step" data-step="0">
+            <h3 class="question">As dúvidas são sanadas no atendimento?</h3>
+            <div class="radios step-radios">
+              <label><input type="radio" name="r" value="1"><span>1</span></label>
+              <label><input type="radio" name="r" value="2"><span>2</span></label>
+              <label><input type="radio" name="r" value="3"><span>3</span></label>
+              <label><input type="radio" name="r" value="4"><span>4</span></label>
+              <label><input type="radio" name="r" value="5"><span>5</span></label>
+            </div>
+          </div>
+
+          <div class="step hidden" data-step="1">
+            <h3 class="question">Como você avalia o atendimento prestado pela nossa equipe?</h3>
+            <div class="radios step-radios">
+              <label><input type="radio" name="r" value="1"><span>1</span></label>
+              <label><input type="radio" name="r" value="2"><span>2</span></label>
+              <label><input type="radio" name="r" value="3"><span>3</span></label>
+              <label><input type="radio" name="r" value="4"><span>4</span></label>
+              <label><input type="radio" name="r" value="5"><span>5</span></label>
+            </div>
+          </div>
+
+          <div class="step hidden" data-step="2">
+            <h3 class="question">As informações repassadas são claras e precisas?</h3>
+            <div class="radios step-radios">
+              <label><input type="radio" name="r" value="1"><span>1</span></label>
+              <label><input type="radio" name="r" value="2"><span>2</span></label>
+              <label><input type="radio" name="r" value="3"><span>3</span></label>
+              <label><input type="radio" name="r" value="4"><span>4</span></label>
+              <label><input type="radio" name="r" value="5"><span>5</span></label>
+            </div>
+          </div>
+
+          <div class="step hidden" data-step="3">
+            <h3 class="question">De modo geral, como você avalia o atendimento do setor?</h3>
+            <div class="radios step-radios">
+              <label><input type="radio" name="r" value="1"><span>1</span></label>
+              <label><input type="radio" name="r" value="2"><span>2</span></label>
+              <label><input type="radio" name="r" value="3"><span>3</span></label>
+              <label><input type="radio" name="r" value="4"><span>4</span></label>
+              <label><input type="radio" name="r" value="5"><span>5</span></label>
+            </div>
+          </div>
+
+          <div class="step-actions">
+            <button id="prevBtn" class="btn ghost" type="button">Voltar</button>
+            <button id="nextBtn" class="btn primary" type="button">Próxima</button>
+          </div>
+
+          <div id="finalReview" class="hidden">
+            <h3>Revisão e envio</h3>
+            <p class="muted">Revisão pronta. Clique <strong>Enviar</strong> para confirmar seu envio ou <strong>Editar</strong> para alterar respostas.</p>
+            <pre id="jsonPreview" class="hidden"></pre>
+            <div id="sendError" class="error hidden" role="alert" aria-live="polite"></div>
+            <div class="row" style="margin-top:12px;">
+              <button id="sendBtn" class="btn primary" type="button">Enviar</button>
+              <button id="editBtn" class="btn ghost" type="button">Editar</button>
+            </div>
+          </div>
+        </div>
+
+        <div id="thankYouCard" class="card thankyou-card hidden">
+          <h2>Obrigado!</h2>
+          <p class="muted">Seu envio foi recebido com sucesso.</p>
+          <p id="thankYouDetails" class="muted"></p>
+          <p class="muted">Deseja preencher novamente?</p>
+          <div class="row" style="margin-top:12px;">
+            <button id="anotherBtn" class="btn">Sim, preencher novamente</button>
+            <button id="logoutBtn" class="btn ghost">Não, sair</button>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <footer class="footer">
+      <small>Todos os direitos reservados © 2026 Federal Energia</small>
+    </footer>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
