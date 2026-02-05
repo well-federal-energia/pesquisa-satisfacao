@@ -201,7 +201,7 @@ input[type="radio"] {
 }
 
 #prevBtn {
-  background: var(--green);
+  background: var(--text-muted);
   color: #fff;
   border: none;
 }
@@ -235,7 +235,7 @@ input[type="radio"] {
   border: 1px solid rgba(0, 0, 0, 0.06);
   color: var(--text-dark);
 }
-
+ 
 .row {
   display: flex;
   gap: 12px;
@@ -246,7 +246,7 @@ input[type="radio"] {
 
 .radios {
   display: flex;
-  gap: 8px;
+  gap: 7px;
 }
 
 .note {

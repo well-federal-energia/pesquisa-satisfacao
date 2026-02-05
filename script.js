@@ -71,7 +71,7 @@ document.addEventListener('DOMContentLoaded', () => {
   loginForm.addEventListener('submit', (e) => {
     e.preventDefault();
     if(answeredSectors.length === allSectors.length){
-      loginError.textContent = 'Todos os setores ja foram respondidos.';
+      loginError.textContent = 'Todos os setores ja foram respondidos!';
       loginError.classList.remove('hidden');
       return;
     }
