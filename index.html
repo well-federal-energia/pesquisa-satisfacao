@@ -3,22 +3,25 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Formulário — Demo</title>
+  <title>Federal Energia</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <div class="app">
     <header class="header">
-      <div class="logo"> <img src="Captura de tela 2026-02-02 102821.png" alt="logo federal" width="30">  <strong>Pesquisa de Satisfação</strong></div>
+      <div class="logo"> <img src="Logo FE fundo azul.png" alt="logo federal" width="100"></div>
       <div class="brand">• Avalie a nossa equipe!  •</div>
     </header>
 
     <main class="container">
       <div id="evaluatedSector" class="sector-banner hidden">Avaliação do setor: <strong id="sectorName"></strong></div>
+      <div id="pageTitle" class="page-title">
+        <h2>Pesquisa de Satisfação</h2>
+      </div>
       <div class="card login-card" id="loginCard">
         <h2>Login</h2>
-        <p class="muted">Acesso simples para testar o formulário.</p>
+        <p class="muted">Sua resposta é anônima, email apenas para autenticação de colaborador!</p>
         <form id="loginForm">
           <label for="email">E-mail</label>
           <input id="email" type="email" placeholder="seu@email.com" required>
@@ -42,10 +45,10 @@
         <div id="stepper" class="stepper hidden">
           <div class="progress"><div id="progressBar" class="progress-bar" style="width:0%"></div></div>
 
-          <p class="map-instruction">Utilize as regras de frequência abaixo para o seu critério de avaliação que poderá ser de 1 (nota baixa) a 5 (nota alta).</p>
+          <p class="map-instruction">Utilize as regras de frequência abaixo para o seu critério de <br> avaliação que poderá ser de 1 (nota baixa) a 5 (nota alta).</p>
 
           <div class="mapinha" aria-hidden="true">
-            <div class="map-header">GRAU DE FREQUÊNCIA</div>
+            <div class="map-header">GRAU DE SATISFAÇÃO</div>
             <div class="map-table">
               <div class="map-row top-row">
                 <div class="map-cell">1</div>
@@ -129,10 +132,9 @@
           <h2>Obrigado!</h2>
           <p class="muted">Seu envio foi recebido com sucesso.</p>
           <p id="thankYouDetails" class="muted"></p>
-          <p class="muted">Deseja preencher novamente?</p>
+          <p id="thankYouNext" class="muted"></p>
           <div class="row" style="margin-top:12px;">
-            <button id="anotherBtn" class="btn">Sim, preencher novamente</button>
-            <button id="logoutBtn" class="btn ghost">Não, sair</button>
+            <button id="anotherBtn" class="btn">Responder setores restantes</button>
           </div>
         </div>
       </div>

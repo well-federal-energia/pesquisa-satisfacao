@@ -5,10 +5,12 @@ document.addEventListener('DOMContentLoaded', () => {
   const formCard = document.getElementById('formCard');
   const loginError = document.getElementById('loginError');
   const loginBtn = loginForm.querySelector('button[type="submit"]');
+  const emailInput = document.getElementById('email');
   const sectorRadios = document.querySelectorAll('input[name="sector"]');
   const sectorBanner = document.getElementById('evaluatedSector');
   const sectorNameEl = document.getElementById('sectorName');
   const welcomeUser = document.getElementById('welcomeUser');
+  const pageTitle = document.getElementById('pageTitle');
 
   const stepper = document.getElementById('stepper');
   const progressBar = document.getElementById('progressBar');
@@ -21,6 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const sendError = document.getElementById('sendError');
   const thankYouCard = document.getElementById('thankYouCard');
   const thankYouDetails = document.getElementById('thankYouDetails');
+  const thankYouNext = document.getElementById('thankYouNext');
   const anotherBtn = document.getElementById('anotherBtn');
   const logoutBtn = document.getElementById('logoutBtn');
 
@@ -38,12 +41,40 @@ document.addEventListener('DOMContentLoaded', () => {
   let userEmail = null;
   let userSector = null;
   let stepperInitialized = false; // evita múltiplos listeners caso startStepper seja chamado várias vezes
+  const allSectors = Array.from(sectorRadios).map(radio => radio.value);
+  let answeredSectors = [];
+
+  function updateSectorOptions(){
+    sectorRadios.forEach(radio => {
+      const isAnswered = answeredSectors.includes(radio.value);
+      radio.disabled = isAnswered;
+      if(isAnswered) radio.checked = false;
+      if(radio.parentElement) radio.parentElement.classList.toggle('disabled', isAnswered);
+    });
+  }
+
+  function updateThankYouMessage(){
+    if(!thankYouNext) return;
+    const remaining = allSectors.filter(sector => !answeredSectors.includes(sector));
+    if(remaining.length > 0){
+      thankYouNext.textContent = `Ja estamos finalizando... agora responda dos setores restantes: ${remaining.join(', ')}.`;
+      if(anotherBtn) anotherBtn.classList.remove('hidden');
+    } else {
+      thankYouNext.textContent = 'Concluido. Todos os setores foram respondidos.';
+      if(anotherBtn) anotherBtn.classList.add('hidden');
+    }
+  }
 
 
 
   loginForm.addEventListener('submit', (e) => {
     e.preventDefault();
-    const email = document.getElementById('email').value.trim();
+    if(answeredSectors.length === allSectors.length){
+      loginError.textContent = 'Todos os setores ja foram respondidos.';
+      loginError.classList.remove('hidden');
+      return;
+    }
+    const email = emailInput.value.trim();
     const sector = document.querySelector('input[name="sector"]:checked')?.value || '';
 
     if(!email || !sector){
@@ -97,6 +128,7 @@ document.addEventListener('DOMContentLoaded', () => {
     loginError.classList.add('hidden');
     loginCard.classList.add('hidden');
     formCard.classList.remove('hidden');
+    pageTitle.classList.add('hidden');
     welcomeUser.textContent = `Bem-vindo(a), ${userEmail}`;
     if(sectorBanner && sectorNameEl){ sectorNameEl.textContent = userSector; sectorBanner.classList.remove('hidden'); }
     startStepper();
@@ -109,6 +141,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // ensure review is hidden and actions are visible when starting
     finalReview.classList.add('hidden');
     const actions = document.querySelector('.step-actions'); if(actions) actions.classList.remove('hidden');
+    // reset previous selections in the UI
+    document.querySelectorAll('.step input[type=radio]').forEach(r => { r.checked = false; });
+    document.querySelectorAll('.step .step-radios label').forEach(l => l.classList.remove('selected'));
     showStep(0);
 
     // add event listeners only once
@@ -155,6 +190,9 @@ document.addEventListener('DOMContentLoaded', () => {
             let parsed = null;
             try{ parsed = txt ? JSON.parse(txt) : null; }catch(e){ parsed = txt; }
             console.log('API response:', parsed);
+            if(userSector && !answeredSectors.includes(userSector)) answeredSectors.push(userSector);
+            updateSectorOptions();
+            updateThankYouMessage();
             // show thank you screen
             stepper.classList.add('hidden'); finalReview.classList.add('hidden');
             // note: do NOT hide `formCard` because `thankYouCard` is inside it
@@ -184,21 +222,43 @@ document.addEventListener('DOMContentLoaded', () => {
         }).finally(()=>{ sendBtn.disabled = false; sendBtn.textContent = originalText; });
       });
 
-      anotherBtn && anotherBtn.addEventListener('click', ()=>{ if(thankYouCard) thankYouCard.classList.add('hidden'); formCard.classList.remove('hidden'); finalReview.classList.add('hidden'); const a = document.querySelector('.step-actions'); if(a) a.classList.remove('hidden'); startStepper(); });
+      anotherBtn && anotherBtn.addEventListener('click', ()=>{
+        if(thankYouCard) thankYouCard.classList.add('hidden');
+        formCard.classList.add('hidden');
+        loginCard.classList.remove('hidden');
+        pageTitle.classList.remove('hidden');
+        stepper.classList.add('hidden');
+        finalReview.classList.add('hidden');
+        if(sectorBanner) sectorBanner.classList.add('hidden');
+        updateSectorOptions();
+        if(emailInput && userEmail) emailInput.value = userEmail;
+      });
 
-      logoutBtn.addEventListener('click', ()=>{ // reset
+      if(logoutBtn) logoutBtn.addEventListener('click', ()=>{ // reset
         stepper.classList.add('hidden'); if(thankYouCard) thankYouCard.classList.add('hidden'); formCard.classList.add('hidden'); loginCard.classList.remove('hidden');
+        pageTitle.classList.remove('hidden');
         if(sectorBanner) sectorBanner.classList.add('hidden'); document.querySelectorAll('input[name="sector"]').forEach(i => i.checked = false);
-        document.getElementById('email').value = '';
+        answeredSectors = [];
+        updateSectorOptions();
+        emailInput.value = '';
       });
 
       stepperInitialized = true;
     }
   }
 
+  updateSectorOptions();
+
   function showStep(step){
     // ensure actions are visible when showing a step
-    const actions = document.querySelector('.step-actions'); if(actions) actions.classList.remove('hidden');
+    const actions = document.querySelector('.step-actions'); 
+    
+    // only show actions if we're not in finalReview
+    if(!finalReview.classList.contains('hidden')) {
+      if(actions) actions.classList.add('hidden');
+    } else {
+      if(actions) actions.classList.remove('hidden');
+    }
 
     const steps = document.querySelectorAll('.step'); steps.forEach(s => s.classList.add('hidden'));
     const el = document.querySelector('.step[data-step="'+step+'"]'); if(el) el.classList.remove('hidden');
@@ -212,12 +272,18 @@ document.addEventListener('DOMContentLoaded', () => {
     progressBar.style.width = pct + '%';
 
     prevBtn.style.display = step === 0 ? 'none' : 'inline-flex';
+    // ensure next button is visible when showing steps (override inline styles set on review)
+    if(nextBtn) nextBtn.style.display = 'inline-flex';
     nextBtn.textContent = step === questions.length - 1 ? 'Finalizar' : 'Próxima';
   }
 
   function showReview(){
     const steps = document.querySelectorAll('.step'); steps.forEach(s=>s.classList.add('hidden'));
-    document.querySelector('.step-actions').classList.add('hidden');
+    const actionsEl = document.querySelector('.step-actions');
+    if(actionsEl) actionsEl.classList.add('hidden');
+    // also explicitly hide prev/next buttons to override any inline styles
+    if(prevBtn) prevBtn.style.display = 'none';
+    if(nextBtn) nextBtn.style.display = 'none';
     finalReview.classList.remove('hidden');
     const payload = { email: userEmail, sector: userSector, answers: {} }; answers.forEach((v,i)=> payload.answers[`q${i+1}`] = Number(v));
     jsonPreview.textContent = JSON.stringify(payload, null, 2);
