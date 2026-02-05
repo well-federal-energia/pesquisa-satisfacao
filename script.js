@@ -10,6 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const sectorBanner = document.getElementById('evaluatedSector');
   const sectorNameEl = document.getElementById('sectorName');
   const welcomeUser = document.getElementById('welcomeUser');
+  const formTitle = document.getElementById('formTitle');
   const pageTitle = document.getElementById('pageTitle');
 
   const stepper = document.getElementById('stepper');
@@ -195,6 +196,8 @@ document.addEventListener('DOMContentLoaded', () => {
             updateThankYouMessage();
             // show thank you screen
             stepper.classList.add('hidden'); finalReview.classList.add('hidden');
+            if(formTitle) formTitle.classList.add('hidden');
+            if(welcomeUser) welcomeUser.classList.add('hidden');
             // note: do NOT hide `formCard` because `thankYouCard` is inside it
             if(thankYouCard){ thankYouDetails.textContent = `E-mail: ${userEmail} — Setor: ${userSector}`; thankYouCard.classList.remove('hidden'); }
           });
@@ -232,6 +235,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if(sectorBanner) sectorBanner.classList.add('hidden');
         updateSectorOptions();
         if(emailInput && userEmail) emailInput.value = userEmail;
+        if(formTitle) formTitle.classList.remove('hidden');
+        if(welcomeUser) welcomeUser.classList.remove('hidden');
       });
 
       if(logoutBtn) logoutBtn.addEventListener('click', ()=>{ // reset
