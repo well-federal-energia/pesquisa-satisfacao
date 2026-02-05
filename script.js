@@ -199,7 +199,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if(formTitle) formTitle.classList.add('hidden');
             if(welcomeUser) welcomeUser.classList.add('hidden');
             // note: do NOT hide `formCard` because `thankYouCard` is inside it
-            if(thankYouCard){ thankYouDetails.textContent = `E-mail: ${userEmail} — Setor: ${userSector}`; thankYouCard.classList.remove('hidden'); }
+            if(thankYouCard){ thankYouDetails.textContent = `E-mail: ${userEmail} — Setor Avaliado: ${userSector}`; thankYouCard.classList.remove('hidden'); }
           });
           // erro HTTP: extrair apenas mensagem.error se disponível
           return r.text().then(text => {
