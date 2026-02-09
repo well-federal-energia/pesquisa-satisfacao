@@ -427,24 +427,23 @@ input[type="radio"] {
 }
 
 .step-radios label {
-  width: 72px;
-  height: 72px;
-  border-radius: 50%;
-  background: #f4f6f7;
+  width: 84px;
   display: inline-flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   color: #8aa0ab;
   font-weight: 800;
   cursor: pointer;
-  border: 1px solid rgba(0, 0, 0, 0.04);
   font-size: 18px;
   margin: 0;
   padding: 0;
   transition: all 0.2s;
+  background: transparent;
+  border: none;
 }
 
-.step-radios label:hover {
+.step-radios label:hover .score-num {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
@@ -452,7 +451,8 @@ input[type="radio"] {
   display: none;
 }
 
-.step-radios label.selected {
+
+.step-radios label.selected .score-num {
   background: var(--green);
   color: #fff;
   border: none;
@@ -460,15 +460,33 @@ input[type="radio"] {
 }
 
 /* Match selected circle color to reference scale */
-.step-radios label.selected:nth-child(1) { background: var(--red); box-shadow: 0 10px 28px rgba(228, 112, 107, 0.25); }
-.step-radios label.selected:nth-child(2) { background: var(--orange); box-shadow: 0 10px 28px rgba(241, 166, 71, 0.25); }
-.step-radios label.selected:nth-child(3) { background: var(--yellow); box-shadow: 0 10px 28px rgba(248, 200, 90, 0.25); }
-.step-radios label.selected:nth-child(4) { background: var(--green); box-shadow: 0 10px 28px rgba(159, 209, 75, 0.25); }
-.step-radios label.selected:nth-child(5) { background: var(--teal); box-shadow: 0 10px 28px rgba(107, 210, 168, 0.25); }
+.step-radios label.selected:nth-child(1) .score-num { background: var(--red); box-shadow: 0 10px 28px rgba(228, 112, 107, 0.25); }
+.step-radios label.selected:nth-child(2) .score-num { background: var(--orange); box-shadow: 0 10px 28px rgba(241, 166, 71, 0.25); }
+.step-radios label.selected:nth-child(3) .score-num { background: var(--yellow); box-shadow: 0 10px 28px rgba(248, 200, 90, 0.25); }
+.step-radios label.selected:nth-child(4) .score-num { background: var(--green); box-shadow: 0 10px 28px rgba(159, 209, 75, 0.25); }
+.step-radios label.selected:nth-child(5) .score-num { background: var(--teal); box-shadow: 0 10px 28px rgba(107, 210, 168, 0.25); }
 
-.step-radios label span {
-  display: inline-block;
+.score-num {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: #f4f6f7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #8aa0ab;
+  font-weight: 800;
+  border: 1px solid rgba(0, 0, 0, 0.04);
   line-height: 1;
+  transition: all 0.2s;
+}
+
+.score-text {
+  margin-top: 6px;
+  font-size: 12px;
+  color: var(--text-muted);
+  text-align: center;
+  font-weight: 600;
 }
 
 .step-actions {
@@ -541,9 +559,13 @@ input[type="radio"] {
   }
 
   .step-radios label {
+    width: 70px;
+    font-size: 16px;
+  }
+
+  .score-num {
     width: 56px;
     height: 56px;
-    font-size: 16px;
   }
 
   h2 {
